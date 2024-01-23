@@ -1,7 +1,5 @@
 ## PREVIOUS CLASSIFICATION_METRICS FUNCTION FROM INTRO TO ML
-from sklearn.metrics import classification_report, ConfusionMatrixDisplay
-import matplotlib.pyplot as plt
-import numpy as np
+
 def classification_metrics(y_true, y_pred, label='',
                            output_dict=False, figsize=(8,4),
                            normalize='true', cmap='Blues',
@@ -11,6 +9,9 @@ def classification_metrics(y_true, y_pred, label='',
     - Reversed raw counts confusion matrix cmap  (so darker==more).
     - Added arg for normalized confusion matrix values_format
     """
+    from sklearn.metrics import classification_report, ConfusionMatrixDisplay
+    import matplotlib.pyplot as plt
+    import numpy as np
     # Get the classification report
     report = classification_report(y_true, y_pred)
     
@@ -146,6 +147,8 @@ def evaluate_classification_network(model,
 
 def plot_history(history,figsize=(6,8)):
     # Get a unique list of metrics 
+    import numpy as np
+    import matplotlib.pyplot as plt
     all_metrics = np.unique([k.replace('val_','') for k in history.history.keys()])
     # Plot each metric
     n_plots = len(all_metrics)
@@ -174,6 +177,7 @@ def plot_history(history,figsize=(6,8)):
 
 def convert_y_to_sklearn_classes(y, verbose=False):
     # If already one-dimension
+    import numpy as np
     if np.ndim(y)==1:
         if verbose:
             print("- y is 1D, using it as-is.")
@@ -195,6 +199,7 @@ def get_true_pred_labels(model,ds):
     """Gets the labels and predicted probabilities from a Tensorflow model and Dataset object.
     Adapted from source: https://stackoverflow.com/questions/66386561/keras-classification-report-accuracy-is-different-between-model-predict-accurac
     """
+    import numpy as np
     y_true = []
     y_pred_probs = []
     
@@ -263,9 +268,7 @@ def make_custom_nlp(
     return nlp
 
 
-from pprint import pprint
-import tensorflow as tf
-import pandas as pd
+
 def make_text_vectorization_layer(train_ds,  max_tokens=None, 
                                   split='whitespace',
                                   standardize="lower_and_strip_punctuation",
@@ -276,6 +279,10 @@ def make_text_vectorization_layer(train_ds,  max_tokens=None,
                                   **kwargs,
                                  ):
     # Build the text vectorization layer
+    import numpy as np
+    from pprint import pprint
+    import tensorflow as tf
+    import pandas as pd
     text_vectorizer = tf.keras.layers.TextVectorization(
         max_tokens=max_tokens,
         standardize=standardize, 
@@ -312,9 +319,10 @@ def make_text_vectorization_layer(train_ds,  max_tokens=None,
     return text_vectorizer, int_to_str
 
 
-from tensorflow.keras import layers, optimizers, regularizers
+
 def build_bow_model(text_vectorization_layer, name=None):
     # Build model with pre-trained text_vectorization layer
+    from tensorflow.keras import layers, optimizers, regularizers
     bow_model = tf.keras.models.Sequential([
         text_vectorization_layer], name=name)
    
@@ -355,4 +363,26 @@ def evaluate_classification(model, X_train, y_train, X_test, y_test,
     results_dict = {'train':results_train,
                     'test': results_test}
     return results_dict
+
+
+def create_directories_from_paths(nested_dict):
+    """OpenAI. (2023). ChatGPT [Large language model]. https://chat.openai.com 
+    Recursively create directories for file paths in a nested dictionary.
+    Parameters:
+    nested_dict (dict): The nested dictionary containing file paths.
+    """
+    
+    import os
+    for key, value in nested_dict.items():
+        if isinstance(value, dict):
+            # If the value is a dictionary, recurse into it
+            create_directories_from_paths(value)
+        elif isinstance(value, str):
+            # If the value is a string, treat it as a file path and get the directory path
+            directory_path = os.path.dirname(value)
+            # If the directory path is not empty and the directory does not exist, create it
+            if directory_path and not os.path.exists(directory_path):
+                os.makedirs(directory_path)
+                print(f"Directory created: {directory_path}")
+
 

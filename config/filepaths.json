@@ -1,0 +1,1 @@
+{"Data": {"ml": {"train": "Data-NLP/training-data.joblib", "text": "Data-NLP/testing-data.joblib", "label_encoder": "Data-NLP/label-encoder.joblib", "target_lookup": "Data-NLP/target-lookup-dict.joblib"}, "tf": {"train_ds": "Data-NLP/training_tf", "test_ds": "Data-NLP/testing_tf"}}, "models": {"rf": "models/rf-pipe.joblib", "gru": "models/tf/"}}
