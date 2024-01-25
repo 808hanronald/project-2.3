@@ -85,7 +85,7 @@ def load_Xy_data(joblib_fpath):
 train_data_path = FPATHS['Data']['ml']['train']
 X_train, y_train = load_Xy_data(train_data_path)
 # Load testing data from FPATH
-test_data_path  = FPATHS['Data']['ml']['test']
+test_data_path  = FPATHS['ml']['test']
 X_test, y_test = load_Xy_data(FPATHS['Data']['ml']['test'])
 
 
